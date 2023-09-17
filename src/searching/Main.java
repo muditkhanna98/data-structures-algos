@@ -2,8 +2,8 @@ package searching;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {1, 5, 10, 10, 15, 18, 18};
-        System.out.println(findFirstOccurrence(arr, 18));
+        int[] arr = {1, 10, 10, 10, 15, 18, 18};
+        System.out.println(findFirstOccurrence(arr, 10));
     }
 
     public static int binarySearch(int[] arr, int item) {
