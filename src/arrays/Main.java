@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {1, 5, 6, 7};
-        reverse(arr);
+        int[] arr = {1, 0, 5, 6, 0, 7};
+        moveZeroToEnd(arr);
     }
 
     public static int getSecondLargest(int[] arr) {
@@ -45,6 +45,24 @@ public class Main {
             low++;
             high--;
         }
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void moveZeroToEnd(int[] arr) {
+        int count = 0;
+        for (int i = 0; i <= arr.length - 1; i++) {
+            if (arr[i] != 0) {
+                arr[count] = arr[i];
+                count++;
+            }
+        }
+
+        while (count <= arr.length - 1) {
+            arr[count] = 0;
+            count++;
+        }
+
 
         System.out.println(Arrays.toString(arr));
     }
