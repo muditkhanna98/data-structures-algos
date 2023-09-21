@@ -2,7 +2,7 @@ package mathematics;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(efficientTrailingZeroFactorial(100));
+        System.out.println(gcdOptimized(12, 15));
     }
 
     private static int getNumberOfDigits(int digit) {
@@ -72,5 +72,28 @@ public class Main {
         }
 
         return result;
+    }
+
+    private static int gcd(int a, int b) {
+        int result = Math.min(a, b); // Because the largest divisor will be the min of both the numbers
+
+        while (result > 0) {
+            if (a % result == 0 && b % result == 0) {
+                break;
+            }
+
+            result--;
+        }
+
+        return result;
+    }
+
+   /* Euclidean Algorithm
+     Let 'b' be smaller than 'a'
+    then gcd(a,b) = gcd(a-b,b) */
+
+    private static int gcdOptimized(int a, int b) {
+        if (b == 0) return a;
+        else return gcdOptimized(b, a % b);
     }
 }
