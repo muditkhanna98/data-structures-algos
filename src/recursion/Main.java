@@ -38,19 +38,12 @@ public class Main {
         return digit % 10 + sumOfDigits(digit / 10);
     }
 
-    private static int maxPieces(int length, int a, int b, int c) {
-        if (length == 0) return 0;
-        if (length < 0) return -1;
-
-        int result = Math.max(Math.max(maxPieces(length - a, a, b, c), maxPieces(length - b, a, b, c)), maxPieces(length - c, a, b, c));
-        if (result == -1) return -1;
-        return result + 1;
-    }
-
     //josephus problem (Microsoft question)
     private static int jos(int totalNumberOfPeople, int personToBeKilled) {
         if (totalNumberOfPeople == 1) return 0;
         return (jos(totalNumberOfPeople - 1, personToBeKilled) + personToBeKilled) % totalNumberOfPeople;
     }
+
+
 
 }
