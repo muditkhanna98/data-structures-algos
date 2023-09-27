@@ -12,9 +12,7 @@ public class Tree {
 
         @Override
         public String toString() {
-            return "Node{" +
-                    "value=" + value +
-                    '}';
+            return "Node{" + "value=" + value + '}';
         }
     }
 
@@ -56,5 +54,60 @@ public class Tree {
         }
 
         return false;
+    }
+
+    public void traversePreOrder() {
+        traversePreOrder(root);
+    }
+
+    public void traversePostOrder() {
+        traversePostOrder(root);
+    }
+
+    public void traverseInOrder() {
+        traverseInOrder(root);
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    public int min() {
+        return min(root);
+    }
+
+    private void traversePreOrder(Node root) {
+        if (root == null) return;
+        System.out.println(root.value);
+        traversePreOrder(root.leftChild);
+        traversePreOrder(root.rightChild);
+    }
+
+    private void traversePostOrder(Node root) {
+        if (root == null) return;
+        traversePostOrder(root.leftChild);
+        traversePostOrder(root.rightChild);
+        System.out.println(root.value);
+    }
+
+    private void traverseInOrder(Node root) {
+        if (root == null) return;
+        traverseInOrder(root.leftChild);
+        System.out.println(root.value);
+        traverseInOrder(root.rightChild);
+    }
+
+    private int height(Node root) {
+        if (root == null) return -1;
+        if (root.leftChild == null && root.rightChild == null) return 0;
+        return 1 + Math.max(height(root.leftChild), height(root.rightChild));
+    }
+
+    private int min(Node root) {
+        if (root.leftChild == null && root.rightChild == null) return root.value;
+        int left = min(root.leftChild);
+        int right = min(root.rightChild);
+
+        return Math.min(Math.min(left, right), root.value);
     }
 }
