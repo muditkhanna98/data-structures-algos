@@ -179,7 +179,7 @@ public class Tree {
         for (int i = 0; i <= height(); i++) {
             var list = getNodesAtDistance(i);
 
-            list.forEach(value -> System.out.println(value));
+            list.forEach(System.out::println);
         }
     }
 
