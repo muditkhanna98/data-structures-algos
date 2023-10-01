@@ -1,9 +1,6 @@
 package graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
     private Map<String, Node> nodes = new HashMap<>();
@@ -67,6 +64,66 @@ public class Graph {
 
         if (fromNode == null || toNode == null) return;
         adjacencyList.get(fromNode).remove(toNode);
+    }
+
+    public void traverseDepthFirstRec(String root) {
+        Node node = nodes.get(root);
+        if (node == null) return;
+        traverseDepthFirstRec(node, new HashSet<>());
+    }
+
+    private void traverseDepthFirstRec(Node root, Set<Node> visited) {
+        System.out.println(root);
+        visited.add(root);
+
+        for (Node node : adjacencyList.get(root)) {
+            if (!visited.contains(node)) traverseDepthFirstRec(node, visited);
+        }
+    }
+
+    public void traverseDepthFirst(String root) {
+        Node node = nodes.get(root);
+        if (node == null) return;
+
+        Set<Node> visited = new HashSet<>();
+        Stack<Node> stack = new Stack<>();
+        stack.push(node);
+
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (visited.contains(current)) {
+                continue;
+            }
+            System.out.println(current);
+            visited.add(current);
+
+            for (Node neighbour : adjacencyList.get(current)) {
+                if (!visited.contains(neighbour)) {
+                    stack.push(neighbour);
+                }
+            }
+        }
+    }
+
+    public void traverseBreadthFirst(String root) {
+        Node node = nodes.get(root);
+        if (node == null) return;
+
+        Queue<Node> queue = new ArrayDeque<>();
+        Set<Node> visited = new HashSet<>();
+        queue.add(node);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.remove();
+            if (visited.contains(current)) continue;
+
+            System.out.println(current);
+            visited.add(current);
+
+            for (Node neighbour : adjacencyList.get(current)) {
+                if (!visited.contains(neighbour)) queue.add(neighbour);
+            }
+        }
     }
 
 

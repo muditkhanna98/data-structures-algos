@@ -1,6 +1,5 @@
 package trees;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Tree {
@@ -98,7 +97,7 @@ public class Tree {
 
     private int height(Node root) {
         if (root == null) return -1;
-        if (root.leftChild == null && root.rightChild == null) return 0;
+        if (root.leftChild == null && root.rightChild == null) return 1;
         return 1 + Math.max(height(root.leftChild), height(root.rightChild));
     }
 
