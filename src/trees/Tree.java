@@ -1,6 +1,8 @@
 package trees;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class Tree {
     private class Node {
@@ -58,6 +60,16 @@ public class Tree {
         return false;
     }
 
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node root) {
+        if (root == null) return 0;
+
+        return 1 + size(root.leftChild) + size(root.rightChild);
+    }
+
     public void traversePreOrder() {
         traversePreOrder(root);
     }
@@ -109,6 +121,15 @@ public class Tree {
     private int min(Node root) {
         if (root.leftChild == null || root.rightChild == null) return root.value;
         return Math.min(Math.min(min(root.leftChild), min(root.rightChild)), root.value);
+    }
+
+    public int max() {
+        return max(root);
+    }
+
+    private int max(Node root) {
+        if (root.leftChild == null || root.rightChild == null) return root.value;
+        return Math.max(Math.max(max(root.leftChild), max(root.rightChild)), root.value);
     }
 
     public int minBinarySearchTree() {
@@ -181,5 +202,60 @@ public class Tree {
             list.forEach(System.out::println);
         }
     }
+
+    public void traverseLevelOrderUsingQueue() {
+        traverseLevelOrderUsingQueue(root);
+    }
+
+    private void traverseLevelOrderUsingQueue(Node root) {
+        if (root == null) return;
+
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.remove();
+            System.out.println(current.value);
+
+            if (current.leftChild != null) {
+                queue.add(current.leftChild);
+            }
+            if (current.rightChild != null) {
+                queue.add(current.rightChild);
+            }
+        }
+    }
+
+    public boolean childrenSumProperty() {
+        return childrenSumProperty(root);
+    }
+
+    private boolean childrenSumProperty(Node node) {
+        if (root == null) return true;
+        if (root.leftChild == null || root.rightChild == null) return true;
+
+        return (root.value == root.leftChild.value + root.rightChild.value)
+                && childrenSumProperty(root.leftChild)
+                && childrenSumProperty(root.rightChild);
+    }
+
+    public int isBalanced() {
+        return isBalanced(root);
+    }
+
+    private int isBalanced(Node root) {
+        if (root == null) return 0;
+
+        int lh = isBalanced(root.leftChild);
+        if (lh == -1) return -1;
+
+        int rh = isBalanced(root.rightChild);
+        if (rh == -1) return -1;
+
+        if (Math.abs(lh - rh) > 1) return -1;
+        else return Math.max(lh, rh) + 1;
+    }
+
+
 
 }
