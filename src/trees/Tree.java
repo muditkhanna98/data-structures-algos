@@ -108,8 +108,7 @@ public class Tree {
     }
 
     private int height(Node root) {
-        if (root == null) return -1;
-        if (root.leftChild == null && root.rightChild == null) return 1;
+        if (root == null) return 0;
         return 1 + Math.max(height(root.leftChild), height(root.rightChild));
     }
 
@@ -230,32 +229,29 @@ public class Tree {
         return childrenSumProperty(root);
     }
 
-    private boolean childrenSumProperty(Node node) {
+    private boolean childrenSumProperty(Node root) {
         if (root == null) return true;
         if (root.leftChild == null || root.rightChild == null) return true;
 
-        return (root.value == root.leftChild.value + root.rightChild.value)
+        return root.leftChild.value + root.rightChild.value == root.value
                 && childrenSumProperty(root.leftChild)
                 && childrenSumProperty(root.rightChild);
     }
 
-    public int isBalanced() {
-        return isBalanced(root);
+    public boolean isHeightBalanced() {
+        int result = isHeightBalanced(root);
+        return result >= 0;
     }
 
-    private int isBalanced(Node root) {
+    private int isHeightBalanced(Node root) {
         if (root == null) return 0;
-
-        int lh = isBalanced(root.leftChild);
+        int lh = isHeightBalanced(root.leftChild);
         if (lh == -1) return -1;
-
-        int rh = isBalanced(root.rightChild);
+        int rh = isHeightBalanced(root.rightChild);
         if (rh == -1) return -1;
 
         if (Math.abs(lh - rh) > 1) return -1;
         else return Math.max(lh, rh) + 1;
     }
-
-
 
 }
