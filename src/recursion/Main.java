@@ -2,7 +2,7 @@ package recursion;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(jos(7, 3));
+        System.out.println(numberOfRopes(15, 5, 8, 7));
     }
 
     private static void printNTo1(int digit) {
@@ -44,6 +44,17 @@ public class Main {
         return (jos(totalNumberOfPeople - 1, personToBeKilled) + personToBeKilled) % totalNumberOfPeople;
     }
 
+    private static int numberOfRopes(int n, int a, int b, int c) {
+        if (n == 0) return 0;
+        else if (n < 0) return -1;
 
+        int temp1 = numberOfRopes(n - a, a, b, c);
+        int temp2 = numberOfRopes(n - b, a, b, c);
+        int temp3 = numberOfRopes(n - c, a, b, c);
+
+        int pieces = Math.max(Math.max(temp1, temp2), temp3);
+        if (pieces == -1) return -1;
+        return pieces + 1;
+    }
 
 }
