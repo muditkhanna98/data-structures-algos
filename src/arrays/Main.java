@@ -4,15 +4,27 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {1, 0, 5, 6, 0, 7};
-        moveZeroToEnd(arr);
+        int[] arr = {1, 0, 5, 6, 8, 7};
+        System.out.println(getSecondLargest(arr));
+    }
+
+    private static int largest(int[] arr) {
+        int largest = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+
+        return largest;
     }
 
     public static int getSecondLargest(int[] arr) {
         int largest = arr[0];
         int secondLargest = -1;
 
-        for (int i = 1; i <= arr.length - 1; i++) {
+        for (int i = 1; i < arr.length; i++) {
             if (arr[i] > largest) {
                 secondLargest = largest;
                 largest = arr[i];

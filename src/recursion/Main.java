@@ -2,7 +2,7 @@ package recursion;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(numberOfRopes(15, 5, 8, 7));
+        subsequenceOfString("abc", "");
     }
 
     private static void printNTo1(int digit) {
@@ -55,6 +55,15 @@ public class Main {
         int pieces = Math.max(Math.max(temp1, temp2), temp3);
         if (pieces == -1) return -1;
         return pieces + 1;
+    }
+
+    private static void subsequenceOfString(String input, String answer) {
+        if (input.length() == 0) {
+            System.out.println(answer);
+            return;
+        }
+        subsequenceOfString(input.substring(1), answer + input.charAt(0));
+        subsequenceOfString(input.substring(1), answer);
     }
 
 }
