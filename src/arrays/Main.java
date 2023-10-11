@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {0, 10, 5, 6, 10, 7, 6};
-        System.out.println(maxProfit(arr));
+        int[] arr = {1, 5, 3, 8, 12};
+        System.out.println(maxProfitEfficient(arr));
     }
 
     private static int largest(int[] arr) {
@@ -120,5 +120,30 @@ public class Main {
         }
 
         return maxProfit;
+    }
+
+    //you buy the stock when it is at bottom and sell it on the top
+    private static int maxProfitEfficient(int[] arr) {
+        int profit = 0;
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[i - 1]) {
+                profit += (arr[i] - arr[i - 1]);
+            }
+        }
+
+        return profit;
+    }
+
+    private static int maximumDifference(int[] arr) {
+        int result = arr[1] - arr[0];
+        int minimum = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            result = Math.max(result, arr[i] - minimum);
+            minimum = Math.min(minimum, arr[i]);
+        }
+
+        return result;
     }
 }
