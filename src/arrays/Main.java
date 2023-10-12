@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {3, 0, 1, 2, 5};
-        System.out.println(trappingRainWaterEfficient(arr));
+        int[] arr = {0, 1, 1, 0, 1, 1, 1};
+        System.out.println(maximumConsecutiveOnes(arr));
     }
 
     private static int largest(int[] arr) {
@@ -184,6 +184,22 @@ public class Main {
 
         for (int i = 1; i < arr.length - 1; i++) {
             result = result + Math.min(lMax[i], rMax[i]) - arr[i];
+        }
+
+        return result;
+    }
+
+    private static int maximumConsecutiveOnes(int[] arr) {
+        int current = 0;
+        int result = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 0) {
+                current = 0;
+            } else {
+                current++;
+                result = Math.max(current, result);
+            }
         }
 
         return result;
