@@ -118,5 +118,33 @@ public class LinkedList {
         return arr;
     }
 
+    public void reverse() {
+        /*[10 -> 20 -> 30]
+        p      c     n
+        so with every iteration we start to move all three pointers one step ahead, and we stop when the c
+        is null
+        [10 -> 20 -> 30]
+                p     c     n*/
+        /*[10 -> 20 -> 30]
+                        p    c    n*/
+        if (isEmpty()) return;
+        Node previous = first;
+        Node current = first.next;
+
+
+        while (current != null) {
+            Node next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+
+        //since in the last iteration previous will refer to the last element
+        last = first;
+        last.next = null;
+        first = previous;
+
+    }
+
 
 }
