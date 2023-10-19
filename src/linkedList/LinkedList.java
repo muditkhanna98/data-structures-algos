@@ -147,6 +147,7 @@ public class LinkedList {
     }
 
     public int getKthFromTheEnd(int k) {
+        if (isEmpty()) throw new IllegalStateException();
         Node a = first;
         Node b = first;
 
