@@ -8,7 +8,9 @@ public class Main {
         tree.insert(12);
         tree.insert(3);
         tree.insert(9);
+        tree.insert(19);
+        tree.insert(1);
 
-        System.out.println(tree.childrenSumProperty());
+        tree.traverseLevelOrderUsingQueue();
     }
 }
