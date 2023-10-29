@@ -6,8 +6,11 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {0, 1, 1, 0, 1, 1, 1};
-        System.out.println(maximumConsecutiveOnes(arr));
+        int[] nums = {2, 7, 11, 15};
+        int target = 9;
+        int[] result = twoSum(nums, target);
+
+        System.out.println(Arrays.toString(result));
     }
 
     private static int largest(int[] arr) {
@@ -203,5 +206,21 @@ public class Main {
         }
 
         return result;
+    }
+
+    private static int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> indexedNum = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int difference = target - nums[i];
+
+            if (indexedNum.containsKey(difference)) {
+                return new int[]{indexedNum.get(difference), i};
+            }
+
+            indexedNum.put(nums[i], i);
+        }
+
+        return new int[]{};
     }
 }
