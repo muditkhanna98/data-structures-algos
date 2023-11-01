@@ -134,7 +134,7 @@ public class Main {
     }
 
     public static void mergeSort(int[] arr) {
-        if (arr.length == 1) return;
+        if (arr.length < 2) return;
         int middle = arr.length / 2;
 
         int[] left = new int[middle];
@@ -185,38 +185,3 @@ public class Main {
 
 }
 
-
-class Solution {
-    public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int i = 0, j = 0, k = 0;
-        int[] merged = new int[m + n];
-
-        while (i < m && j < n) {
-            if (nums1[i] <= nums2[j]) {
-                merged[k] = nums1[i];
-                i++;
-                k++;
-            } else {
-                merged[k] = nums2[j];
-                j++;
-                k++;
-            }
-        }
-
-        while (i < m) {
-            merged[k] = nums1[i];
-            i++;
-            k++;
-        }
-
-        while (j < n) {
-            merged[k] = nums2[j];
-            j++;
-            k++;
-        }
-
-        for (int l = 0; l < merged.length; l++) {
-            nums1[l] = merged[l];
-        }
-    }
-}
