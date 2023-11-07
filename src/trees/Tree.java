@@ -1,5 +1,8 @@
 package trees;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class Tree {
     private class Node {
         private int value;
@@ -91,6 +94,113 @@ public class Tree {
         postOrderTraversal(root.leftChild);
         postOrderTraversal(root.rightChild);
         System.out.println(root.value);
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node root) {
+        if (root == null) return -1;
+        if (root.leftChild == null && root.rightChild == null) return 0;
+
+        return 1 + Math.max(height(root.leftChild), height(root.rightChild));
+    }
+
+    public int min() {
+        return min(root);
+    }
+
+    private int min(Node root) {
+        if (root == null) return -1;
+        if (root.leftChild == null && root.rightChild == null) return root.value;
+
+        int left = min(root.leftChild);
+        int right = min(root.rightChild);
+
+        return Math.min(Math.min(left, right), root.value);
+    }
+
+    public int binarySearchMin() {
+        return binarySearchMin(root);
+    }
+
+    private int binarySearchMin(Node root) {
+        if (root == null) throw new IllegalStateException();
+        Node current = root;
+        Node last = current;
+        while (current != null) {
+            last = current;
+            current = current.leftChild;
+        }
+
+        return last.value;
+    }
+
+    public boolean equals(Tree other) {
+        if (other == null) return false;
+        return equals(root, other.root);
+    }
+
+    private boolean equals(Node first, Node second) {
+        if (first == null && second == null) return true;
+        if (first != null && second != null) {
+            return first.value == second.value
+                    && equals(first.leftChild, second.rightChild)
+                    && equals(first.rightChild, second.rightChild);
+        }
+
+        return false;
+    }
+
+    public boolean isBinarySearchTree() {
+        return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBinarySearchTree(Node root, int min, int max) {
+        if (root == null) return true;
+        if (root.value < min || root.value > max) return false;
+
+        return isBinarySearchTree(root.leftChild, min, root.value - 1)
+                && isBinarySearchTree(root.rightChild, root.value + 1, max);
+    }
+
+    public void kthNodesFromRoot(int distance) {
+        kthNodesFromRoot(root, distance);
+    }
+
+    private void kthNodesFromRoot(Node root, int distance) {
+        if (root == null) return;
+        if (distance == 0) {
+            System.out.println(root.value);
+            return;
+        }
+
+        kthNodesFromRoot(root.leftChild, distance - 1);
+        kthNodesFromRoot(root.rightChild, distance - 1);
+    }
+
+    public void traverseLevelOrder() {
+        traverseLevelOrder(root);
+    }
+
+    private void traverseLevelOrder(Node root) {
+        if (root == null) return;
+        Queue<Node> queue = new ArrayDeque<>();
+
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            System.out.println(current.value);
+
+            if (current.leftChild != null) {
+                queue.add(current.leftChild);
+            }
+            if (current.rightChild != null) {
+                queue.add(current.rightChild);
+            }
+        }
     }
 
 
