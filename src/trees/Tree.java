@@ -203,5 +203,82 @@ public class Tree {
         }
     }
 
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node root) {
+        if (root == null) return 0;
+        return 1 + size(root.leftChild) + size(root.rightChild);
+    }
+
+    public int max() {
+        return max(root);
+    }
+
+    private int max(Node root) {
+        if (root == null) return -1;
+        if (root.leftChild == null && root.rightChild == null) return root.value;
+
+        int left = max(root.leftChild);
+        int right = max(root.rightChild);
+
+        return Math.max(left, right);
+    }
+
+    public void printLeftView() {
+        printLeftView(root);
+    }
+
+    private void printLeftView(Node root) {
+        if (root == null) return;
+        System.out.println(root.value);
+        printLeftView(root.leftChild);
+    }
+
+
+    public boolean childrenSumProperty() {
+        return childrenSumProperty(root);
+    }
+
+    private boolean childrenSumProperty(Node root) {
+        if (root == null) return true;
+        if (root.leftChild == null && root.rightChild == null) return true;
+
+        int sum = 0;
+        if (root.leftChild != null) sum += root.leftChild.value;
+        if (root.rightChild != null) sum += root.rightChild.value;
+
+        return (root.value == sum && childrenSumProperty(root.leftChild) && childrenSumProperty(root.rightChild));
+    }
+
+
+    public int maxWidth() {
+        return maxWidth(root);
+    }
+
+    private int maxWidth(Node root) {
+        if (root == null) return 0;
+
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        int result = 0;
+
+        while (!queue.isEmpty()) {
+            result = Math.max(result, queue.size());
+            Node current = queue.remove();
+
+            if (current.leftChild != null) {
+                queue.add(current.leftChild);
+            }
+            if (current.rightChild != null) {
+                queue.add(current.rightChild);
+            }
+        }
+
+        return result;
+    }
+
 
 }
