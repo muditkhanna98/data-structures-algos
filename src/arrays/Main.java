@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {7, 10, 4, 3, 20, 5, 2};
+        int[] arr = {1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1};
 
-        System.out.println(maximumDifference(arr));
+        System.out.println(findMaxConsecutiveOnes(arr));
     }
 
     private static int largestElement(int[] arr) {
@@ -171,6 +171,96 @@ public class Main {
         }
 
         return (maxDifference > 0) ? maxDifference : -1;
+    }
+
+    private static int[] twoSum(int[] arr, int target) {
+        HashMap<Integer, Integer> differencesMap = new HashMap<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            int difference = target - arr[i];
+
+            if (differencesMap.containsKey(difference)) {
+                return new int[]{differencesMap.get(difference), i};
+            }
+            differencesMap.put(arr[i], i);
+        }
+
+        return new int[]{};
+    }
+
+    private static int stockBuyAndSellProblem(int[] arr) {
+        int profit = 0;
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[i - 1]) {
+                profit += (arr[i] - arr[i - 1]);
+            }
+        }
+
+        return profit;
+    }
+
+    private static int trappingRainWater(int[] arr) {
+        int result = 0;
+
+        for (int i = 1; i < arr.length - 1; i++) {
+            int lMax = arr[i];
+            int rMax = arr[i];
+
+            for (int j = 0; j < i; j++) {
+                lMax = Math.max(lMax, arr[j]);
+            }
+
+            for (int j = i + 1; j < arr.length; j++) {
+                rMax = Math.max(rMax, arr[j]);
+            }
+
+            result = result + (Math.min(lMax, rMax) - arr[i]);
+        }
+
+        return result;
+    }
+
+    private static int trappingRainWaterEfficientSol(int[] arr) {
+         /*idea is to precompute left max and right max for
+        every element in the array and then use it later*/
+
+        int result = 0;
+        int[] lMax = new int[arr.length];
+        int[] rMax = new int[arr.length];
+
+        lMax[0] = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            lMax[i] = Math.max(lMax[i - 1], arr[i]);
+        }
+
+        rMax[arr.length - 1] = arr[arr.length - 1];
+        for (int i = arr.length - 2; i >= 0; i--) {
+            rMax[i] = Math.max(arr[i], rMax[i + 1]);
+        }
+
+        for (int i = 1; i < arr.length - 1; i++) {
+            result = result + (Math.min(lMax[i], rMax[i]) - arr[i]);
+        }
+
+        return result;
+    }
+
+    public static int findMaxConsecutiveOnes(int[] nums) {
+        int result = 0;
+        int currentMax = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                currentMax++;
+                result = Math.max(currentMax, result);
+            } else {
+                currentMax = 0;
+            }
+        }
+
+        return result;
     }
 
 
