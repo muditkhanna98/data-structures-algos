@@ -96,102 +96,42 @@ public class Tree {
         System.out.println(root.value);
     }
 
-    public int height() {
-        return height(root);
+    public int heightOfBinaryTree() {
+        return heightOfBinaryTree(root);
     }
 
-    private int height(Node root) {
+    private int heightOfBinaryTree(Node root) {
         if (root == null) return -1;
         if (root.leftChild == null && root.rightChild == null) return 0;
-
-        return 1 + Math.max(height(root.leftChild), height(root.rightChild));
+        return 1 + Math.max(heightOfBinaryTree(root.leftChild), heightOfBinaryTree(root.rightChild));
     }
 
-    public int min() {
-        return min(root);
+    public void printNodesAtKDistance(int distance) {
+        printNodesAtKDistance(root, distance);
     }
 
-    private int min(Node root) {
-        if (root == null) return -1;
-        if (root.leftChild == null && root.rightChild == null) return root.value;
-
-        int left = min(root.leftChild);
-        int right = min(root.rightChild);
-
-        return Math.min(Math.min(left, right), root.value);
-    }
-
-    public int binarySearchMin() {
-        return binarySearchMin(root);
-    }
-
-    private int binarySearchMin(Node root) {
-        if (root == null) throw new IllegalStateException();
-        Node current = root;
-        Node last = current;
-        while (current != null) {
-            last = current;
-            current = current.leftChild;
-        }
-
-        return last.value;
-    }
-
-    public boolean equals(Tree other) {
-        if (other == null) return false;
-        return equals(root, other.root);
-    }
-
-    private boolean equals(Node first, Node second) {
-        if (first == null && second == null) return true;
-        if (first != null && second != null) {
-            return first.value == second.value
-                    && equals(first.leftChild, second.rightChild)
-                    && equals(first.rightChild, second.rightChild);
-        }
-
-        return false;
-    }
-
-    public boolean isBinarySearchTree() {
-        return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    private boolean isBinarySearchTree(Node root, int min, int max) {
-        if (root == null) return true;
-        if (root.value < min || root.value > max) return false;
-
-        return isBinarySearchTree(root.leftChild, min, root.value - 1)
-                && isBinarySearchTree(root.rightChild, root.value + 1, max);
-    }
-
-    public void kthNodesFromRoot(int distance) {
-        kthNodesFromRoot(root, distance);
-    }
-
-    private void kthNodesFromRoot(Node root, int distance) {
+    private void printNodesAtKDistance(Node root, int distance) {
         if (root == null) return;
         if (distance == 0) {
             System.out.println(root.value);
             return;
         }
-
-        kthNodesFromRoot(root.leftChild, distance - 1);
-        kthNodesFromRoot(root.rightChild, distance - 1);
+        printNodesAtKDistance(root.leftChild, distance - 1);
+        printNodesAtKDistance(root.rightChild, distance - 1);
     }
 
-    public void traverseLevelOrder() {
-        traverseLevelOrder(root);
+    public void levelOrderTraversal() {
+        levelOrderTraversal(root);
     }
 
-    private void traverseLevelOrder(Node root) {
+    private void levelOrderTraversal(Node root) {
         if (root == null) return;
         Queue<Node> queue = new ArrayDeque<>();
 
         queue.add(root);
 
         while (!queue.isEmpty()) {
-            Node current = queue.poll();
+            Node current = queue.remove();
             System.out.println(current.value);
 
             if (current.leftChild != null) {
@@ -212,73 +152,28 @@ public class Tree {
         return 1 + size(root.leftChild) + size(root.rightChild);
     }
 
-    public int max() {
-        return max(root);
+    public int minimumValue() {
+        return minimumValue(root);
     }
 
-    private int max(Node root) {
-        if (root == null) return -1;
+    private int minimumValue(Node root) {
         if (root.leftChild == null && root.rightChild == null) return root.value;
+        int left = minimumValue(root.leftChild);
+        int right = minimumValue(root.rightChild);
 
-        int left = max(root.leftChild);
-        int right = max(root.rightChild);
-
-        return Math.max(left, right);
+        return Math.min(root.value, Math.min(left, right));
     }
 
-    public void printLeftView() {
-        printLeftView(root);
+    public int maximumValue() {
+        return maximumValue(root);
     }
 
-    private void printLeftView(Node root) {
-        if (root == null) return;
-        System.out.println(root.value);
-        printLeftView(root.leftChild);
+    private int maximumValue(Node root) {
+        if (root.leftChild == null && root.rightChild == null) return root.value;
+        int left = maximumValue(root.leftChild);
+        int right = maximumValue(root.rightChild);
+
+        return Math.max(root.value, Math.max(left, right));
     }
-
-
-    public boolean childrenSumProperty() {
-        return childrenSumProperty(root);
-    }
-
-    private boolean childrenSumProperty(Node root) {
-        if (root == null) return true;
-        if (root.leftChild == null && root.rightChild == null) return true;
-
-        int sum = 0;
-        if (root.leftChild != null) sum += root.leftChild.value;
-        if (root.rightChild != null) sum += root.rightChild.value;
-
-        return (root.value == sum && childrenSumProperty(root.leftChild) && childrenSumProperty(root.rightChild));
-    }
-
-
-    public int maxWidth() {
-        return maxWidth(root);
-    }
-
-    private int maxWidth(Node root) {
-        if (root == null) return 0;
-
-        Queue<Node> queue = new ArrayDeque<>();
-        queue.add(root);
-
-        int result = 0;
-
-        while (!queue.isEmpty()) {
-            result = Math.max(result, queue.size());
-            Node current = queue.remove();
-
-            if (current.leftChild != null) {
-                queue.add(current.leftChild);
-            }
-            if (current.rightChild != null) {
-                queue.add(current.rightChild);
-            }
-        }
-
-        return result;
-    }
-
 
 }

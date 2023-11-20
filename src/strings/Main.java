@@ -1,25 +1,29 @@
 package strings;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
-        String str = "abcde";
-        System.out.println(longestDistinct("abcdabc"));
+        String str = "abcda";
+        System.out.println(hasUniqueChars(str));
     }
 
     private static boolean isPalindrome(String str) {
-        int start = 0;
+        int begin = 0;
         int end = str.length() - 1;
 
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end)) return false;
-            start++;
+        while (begin < end) {
+            if (str.charAt(begin) != str.charAt(end)) return false;
+            begin++;
             end--;
         }
+
         return true;
     }
 
-    private static boolean isSubSequence(String str1, String str2) {
+    private static boolean subsequence(String str1, String str2) {
         int j = 0;
+
         for (int i = 0; i < str1.length() && j < str2.length(); i++) {
             if (str1.charAt(i) == str2.charAt(j)) {
                 j++;
@@ -27,46 +31,74 @@ public class Main {
         }
 
         return j == str2.length();
-
     }
 
-    private static boolean isAnagram(String s, String t) {
-        int[] count = new int[256];
+    private static boolean isAnagram(String first, String second) {
+        if (first.length() != second.length()) return false;
 
-        if (s.length() != t.length()) return false;
+        int[] result = new int[256];
 
-        for (int i = 0; i < s.length(); i++) {
-            count[s.charAt(i)]++;
-            count[t.charAt(i)]--;
+        for (int i = 0; i < first.length(); i++) {
+            result[first.charAt(i)]++;
+            result[second.charAt(i)]--;
         }
 
-        for (int i = 0; i < count.length; i++) {
-            if (count[i] != 0) return false;
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] != 0) return false;
         }
+
         return true;
     }
 
-    private static int longestDistinct(String str) {
-        int n = str.length();
-        int res = 0;
+    private static int leftMostRepeating(String str) {
+        int[] result = new int[256];
+
+        Arrays.fill(result, -1);
+        int answer = Integer.MAX_VALUE;
 
         for (int i = 0; i < str.length(); i++) {
-            for (int j = i; j < str.length(); j++) {
-                if (areDistinct(str, i, j)) {
-                    res = Math.max(res, j - i + 1);
-                }
+            int fi = result[str.charAt(i)];
+
+            if (fi == -1) {
+                result[str.charAt(i)] = i;
+            } else {
+                answer = Math.min(answer, fi);
             }
         }
 
-        return res;
+        return answer == Integer.MAX_VALUE ? -1 : answer;
     }
 
-    private static boolean areDistinct(String str, int i, int j) {
-        boolean[] visited = new boolean[256];
+    private static void reverseWordsInString(char[] str) {
+        int start = 0;
 
-        for (int k = i; k <= j; k++) {
-            if (visited[str.charAt(k)]) return false;
-            visited[str.charAt(k)] = true;
+        for (int end = 0; end < str.length; end++) {
+            if (str[end] == ' ') {
+                reverse(str, start, end - 1);
+                start = end + 1;
+            }
+        }
+
+        System.out.println(str);
+    }
+
+    private static void reverse(char[] str, int start, int end) {
+        while (start < end) {
+            char temp = str[start];
+            str[start] = str[end];
+            str[end] = temp;
+            start++;
+            end--;
+        }
+
+    }
+
+    private static boolean hasUniqueChars(String str) {
+        int[] result = new int[128];
+
+        for (int i = 0; i < str.length(); i++) {
+            if (result[str.charAt(i)] != 0) return false;
+            result[str.charAt(i)]++;
         }
 
         return true;
