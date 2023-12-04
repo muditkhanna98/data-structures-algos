@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        String str = "abcda";
-        System.out.println(hasUniqueChars(str));
+        String str = "abcbd";
+        System.out.println(leftMostRepeating(str));
     }
 
     private static boolean isPalindrome(String str) {

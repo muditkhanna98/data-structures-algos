@@ -2,12 +2,15 @@ package arrays;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1};
+        int[] arr = {3, 5, 2, 6, 7, 10};
 
-        System.out.println(findMaxConsecutiveOnes(arr));
+        System.out.println(secondLargestElement(arr));
     }
 
     private static int largestElement(int[] arr) {
@@ -31,7 +34,7 @@ public class Main {
                 secondLargest = largest;
                 largest = i;
             } else if (arr[i] != arr[largest]) {
-                if (arr[i] > secondLargest || arr[i] > arr[secondLargest]) {
+                if (secondLargest == -1 || arr[i] > arr[secondLargest]) {
                     secondLargest = i;
                 }
             }
@@ -186,6 +189,54 @@ public class Main {
         }
 
         return new int[]{};
+    }
+
+    private static void thirdHighest(int[] arr) {
+        int highest = arr[0];
+        int secondHighest = arr[0];
+        int thirdHighest = arr[0];
+
+        for (int j : arr) {
+            if (j > highest) {
+                thirdHighest = secondHighest;
+                secondHighest = highest;
+                highest = j;
+            } else if (j > secondHighest && j != highest) {
+                thirdHighest = secondHighest;
+                secondHighest = j;
+            } else if (j > thirdHighest && j != secondHighest && j != highest) {
+                thirdHighest = j;
+            }
+
+
+        }
+
+
+        System.out.println(thirdHighest);
+    }
+
+    private static void leastFrequent(int[] arr) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        int leastFreq = Integer.MAX_VALUE;
+        int leastFreqNum = 0;
+
+        for (int j : arr) {
+            if (map.containsKey(j)) {
+                map.put(j, map.get(j) + 1);
+            } else {
+                map.put(j, 1);
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> set : map.entrySet()) {
+            if (set.getValue() < leastFreq) {
+                leastFreq = set.getValue();
+                leastFreqNum = set.getKey();
+            }
+        }
+
+        System.out.println("Num: " + leastFreqNum + " freq: " + leastFreq);
     }
 
     private static int stockBuyAndSellProblem(int[] arr) {
