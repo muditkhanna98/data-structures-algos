@@ -2,68 +2,139 @@ package searching;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {3, 6, 7, 8, 9, 15};
-        System.out.println(ternarySearch(arr, 9));
+        int[] arr = {0, 0, 0, 1, 1, 1, 1};
+        System.out.println(squareRoot(10));
     }
 
-    private static int linearSearch(int[] arr, int value) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == value) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private static int binarySearch(int[] arr, int target) {
-        return binarySearch(arr, target, 0, arr.length - 1);
-    }
-
-    //recursive
-    private static int binarySearch(int[] arr, int target, int low, int high) {
-        if (high < low) return -1;
-        int middle = (low + high) / 2;
-        if (arr[middle] == target) return middle;
-
-        if (target < arr[middle]) return binarySearch(arr, target, low, middle - 1);
-        else return binarySearch(arr, target, middle + 1, high);
-    }
-
-    private static int binarySearchIterative(int[] arr, int target) {
+    private static int binarySearchIterative(int[] arr, int item) {
         int low = 0;
         int high = arr.length - 1;
 
-        while (low < high) {
-            int middle = (low + high) / 2;
-            if (arr[middle] == target) return middle;
-            else if (target < arr[middle]) {
-                high = middle - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == item) return mid;
+            if (item < arr[mid]) {
+                high = mid - 1;
             } else {
-                low = middle + 1;
+                low = mid + 1;
             }
         }
 
         return -1;
     }
 
-    private static int ternarySearch(int[] arr, int target) {
-        return ternarySearch(arr, target, 0, arr.length - 1);
-    }
-
-    //ternary search
-    private static int ternarySearch(int[] arr, int target, int low, int high) {
+    private static int binarySearchRec(int[] arr, int low, int high, int item) {
         if (low > high) return -1;
-        int partitionSize = (high - low) / 3;
-        int mid1 = low + partitionSize;
-        int mid2 = high - partitionSize;
 
-        if (arr[mid1] == target) return mid1;
-        if (arr[mid2] == target) return mid2;
+        int mid = (low + high) / 2;
+        if (item == arr[mid]) return mid;
+        if (item > arr[mid]) {
+            return binarySearchRec(arr, mid + 1, high, item);
+        } else {
+            return binarySearchRec(arr, low, mid - 1, item);
+        }
 
-        if (target < arr[mid1]) return ternarySearch(arr, target, low, mid1 - 1);
-
-        if (target > arr[mid2]) return ternarySearch(arr, target, mid2 + 1, high);
-        return ternarySearch(arr, target, mid1 + 1, mid2 - 1);
     }
+
+    private static int indexOfFirstOccurrence(int[] arr, int low, int high, int item) {
+        int mid = (low + high) / 2;
+
+        if (item == arr[mid]) {
+            if (mid == 0 || arr[mid - 1] != arr[mid]) {
+                return mid;
+            }
+            return indexOfFirstOccurrence(arr, low, mid - 1, item);
+        }
+
+        if (item > arr[mid]) return indexOfFirstOccurrence(arr, mid + 1, high, item);
+        else if (item < arr[mid]) return indexOfFirstOccurrence(arr, low, mid - 1, item);
+
+        return -1;
+    }
+
+    private static int indexOfFirstOccurrenceIterative(int[] arr, int item) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (item > arr[mid]) {
+                low = mid + 1;
+            } else if (item < arr[mid]) {
+                high = mid - 1;
+            } else {
+                if (mid == 0 || arr[mid] != arr[mid - 1]) {
+                    return mid;
+                }
+                high = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int indexOfLastOccurrence(int[] arr, int item) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (item < arr[mid]) {
+                high = mid - 1;
+            } else if (item > arr[mid]) {
+                low = mid + 1;
+            } else {
+                if (mid == arr.length - 1 || arr[mid + 1] != arr[mid]) {
+                    return mid;
+                }
+                return low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int countOnes(int[] arr) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == 0) {
+                low = mid + 1;
+            } else {
+                if (mid == 0 || arr[mid] != arr[mid - 1]) {
+                    return arr.length - mid;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    //binary search to find square root of a number
+    private static int squareRoot(int num) {
+        int low = 1;
+        int high = num;
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int midSquare = mid * mid;
+            if (midSquare == num) {
+                return mid;
+            } else if (midSquare > num) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+                ans = mid;
+            }
+        }
+        return ans;
+    }
+
 
 }
