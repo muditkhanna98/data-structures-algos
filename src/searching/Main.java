@@ -136,5 +136,35 @@ public class Main {
         return ans;
     }
 
+    //one half of the array will always be sorted
+    //compare the middle element with the corner elements to know which half of the array is sorted
+    //compare element to be searched with the middle and the corner case and then search in that half using binary search
+    private static int searchInSortedRotatedArray(int[] arr, int item) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == item) {
+                return mid;
+            }
+            if (arr[low] <= arr[mid]) {
+                if (item >= arr[low] && item <= arr[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                if (item >= arr[mid] && item <= arr[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
 
 }
